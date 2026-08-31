@@ -3,7 +3,7 @@ import pandas as pd
 import gradio as gr
 import skops.io as sio
 
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DATA_PATH = os.path.join(BASE_DIR, "Data", "AmesHousing.csv")
 MODEL_PATH = os.path.join(BASE_DIR, "Model", "house_price_pipeline.skops")
 
@@ -25,7 +25,6 @@ for col in FEATURE_COLS:
 
 NEIGHBORHOODS = sorted(train_df["Neighborhood"].dropna().unique().tolist())
 QUALITY_LABELS = ["Po", "Fa", "TA", "Gd", "Ex"]
-
 
 def predict_price(
     overall_qual,
