@@ -1,0 +1,49 @@
+name: Continuous Integration
+
+on:
+  pull_request:
+    branches:
+      - main
+
+permissions:
+  contents: write
+
+jobs:
+  train-and-evaluate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: make install
+
+      - name: Format code
+        run: make format
+
+      - name: Train model
+        run: make train
+
+      - name: Evaluate model
+        run: make eval
+
+      - name: Write CML report
+        env:
+          REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          echo "## Model Metrics" > report.md
+          cat Results/metrics.txt >> report.md
+          echo '\n## Predicted vs. Actual' >> report.md
+          echo '![Predicted vs Actual](./Results/model_results.png)' >> report.md
+          cml comment create report.md
+
+      - name: Update branch with new results
+        env:
+          USER_NAME: ${{ secrets.USER_NAME }}
+          USER_EMAIL: ${{ secrets.USER_EMAIL }}
+        run: make update-branch USER_NAME="$USER_NAME" USER_EMAIL="$USER_EMAIL"
