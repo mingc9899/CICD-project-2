@@ -28,6 +28,7 @@ hf-login:
 push-hub:
 	hf upload MingC9899/CICD-project-2 ./App --repo-type=space --commit-message="Sync App files"
 	hf upload MingC9899/CICD-project-2 ./Model /Model --repo-type=space --commit-message="Sync Model"
+	hf upload MingC9899/CICD-project-2 ./Data /Data --repo-type=space --commit-message="Sync Data"
 	hf upload MingC9899/CICD-project-2 ./Results /Metrics --repo-type=space --commit-message="Sync Results"
 
 deploy: hf-login push-hub

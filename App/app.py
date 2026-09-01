@@ -3,7 +3,12 @@ import pandas as pd
 import gradio as gr
 import skops.io as sio
 
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+_here = os.path.dirname(os.path.abspath(__file__))
+_candidates = [os.path.dirname(_here), _here]
+BASE_DIR = next(
+    (c for c in _candidates if os.path.exists(os.path.join(c, "Model"))),
+    _candidates[0],
+)
 DATA_PATH = os.path.join(BASE_DIR, "Data", "AmesHousing.csv")
 MODEL_PATH = os.path.join(BASE_DIR, "Model", "house_price_pipeline.skops")
 
@@ -51,7 +56,6 @@ def predict_price(
     input_df = pd.DataFrame([row], columns=FEATURE_COLS)
     prediction = pipe.predict(input_df)[0]
     return f"${prediction:,.0f}"
-
 
 demo = gr.Interface(
     fn=predict_price,
