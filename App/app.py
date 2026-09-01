@@ -2,6 +2,7 @@ import os
 import pandas as pd
 import gradio as gr
 import skops.io as sio
+import spaces
 
 _here = os.path.dirname(os.path.abspath(__file__))
 _candidates = [os.path.dirname(_here), _here]
@@ -31,6 +32,7 @@ for col in FEATURE_COLS:
 NEIGHBORHOODS = sorted(train_df["Neighborhood"].dropna().unique().tolist())
 QUALITY_LABELS = ["Po", "Fa", "TA", "Gd", "Ex"]
 
+@spaces.GPU
 def predict_price(
     overall_qual,
     gr_liv_area,
