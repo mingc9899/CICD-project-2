@@ -92,9 +92,7 @@ r2 = r2_score(y_test, predictions)
 print(f"RMSE: {rmse:,.2f}  MAE: {mae:,.2f}  R2: {r2:.3f}")
 
 with open(os.path.join(RESULTS_DIR, "metrics.txt"), "w") as outfile:
-    outfile.write(
-        f"\nRMSE = {rmse:,.2f}, MAE = {mae:,.2f}, R2 Score = {r2:.3f}."
-    )
+    outfile.write(f"\nRMSE = {rmse:,.2f}, MAE = {mae:,.2f}, R2 Score = {r2:.3f}.")
 
 fig, ax = plt.subplots(figsize=(6, 6))
 ax.scatter(y_test, predictions, alpha=0.4, edgecolor="k")
