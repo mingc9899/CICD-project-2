@@ -6,3 +6,4 @@ matplotlib
 gradio
 numpy
 spaces
+black
